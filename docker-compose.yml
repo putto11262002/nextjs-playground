@@ -9,8 +9,8 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.defaultresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.defaultresolver.acme.email=${LETSENCRYPT_EMAIL}"
-      - "--certificatesresolvers.defaultresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.defaultresolver.acme.email=putto11262002@gmail.com"
+      # - "--certificatesresolvers.defaultresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
