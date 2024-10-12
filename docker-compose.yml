@@ -32,7 +32,7 @@ services:
         - NODE_ENV=production
     labels:
       - "traefik.enable=true"
-      - traefik.http.routers.nextjs.rule=Host(`${nestjs.jimmodel.com}``)
+      - traefik.http.routers.nextjs.rule=Host(`nestjs.jimmodel.com`)
       - "traefik.http.routers.nextjs.entrypoints=websecure"
       - "traefik.http.services.nextjs.loadbalancer.server.port=3000"
       - "traefik.http.routers.nextjs.tls.certresolver=defaultresolver"
