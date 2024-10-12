@@ -1,7 +1,7 @@
 services:
   reverse-proxy:
     image: traefik:v3.0
-    container_name: traefik
+    container_name: nestjs_traefik
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
