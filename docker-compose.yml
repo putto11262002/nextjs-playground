@@ -1,0 +1,38 @@
+services:
+  reverse-proxy:
+    image: traefik:v3.0
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.defaultresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.defaultresolver.acme.email=${LETSENCRYPT_EMAIL}"
+      - "--certificatesresolvers.defaultresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_PUBLIC_HOSTNAME}`)"
+    #   - "traefik.http.routers.traefik.entrypoints=websecure"
+    #   - "traefik.http.routers.traefik.tls=true"
+    #   - "traefik.http.routers.traefik.tls.certresolver=defaultresolver"
+    #   - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - traefik.http.routers.nextjs.rule=Host(`${nestjs.jimmodel.com}``)
+      - "traefik.http.routers.nextjs.entrypoints=websecure"
+      - "traefik.http.services.nextjs.loadbalancer.server.port=3000"
+      - "traefik.http.routers.nextjs.tls.certresolver=defaultresolver"
